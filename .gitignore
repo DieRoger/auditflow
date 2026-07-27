@@ -1,0 +1,45 @@
+﻿# Environment
+.env
+*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+.venv/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+
+# Database
+*.db
+*.sqlite
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Temp / Output
+backend/scripts/demo_output/
+backend/scripts/sprint1_output/
+backend/scripts/eval_v2_output/
+backend/scripts/human_eval_output/
+
+# Docker volumes (don't commit)
+pgdata/
+miniodata/
+
+# Large files (>50MB)
+datasets/金河生物：金河生物科技股份有限公司最近一年的财务报告及其审计报告以及最近一期的财务报告.pdf
+
+# Handover notes (personal)
+HANDOVER.md
