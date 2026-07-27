@@ -1,0 +1,93 @@
+# AuditFlow — 审计本体推理链定义
+# 格式：节点(area → risk → assertion → procedure → evidence → standard)
+
+# ── Revenue Recognition ─────────────────────────────────────────
+revenue_recognition:
+  risk: "Aggressive Revenue Recognition"
+  assertions: [Existence, Accuracy, Cutoff]
+  procedures:
+    - type: Inspection
+      steps: ["Review sales contracts for side letters", "Match shipping docs to revenue dates"]
+      evidence_required: [sales_contracts, shipping_docs]
+    - type: Confirmation
+      steps: ["Confirm balances with top 5 customers"]
+      evidence_required: [customer_confirmations]
+  related_standards: ["IFRS 15.27", "ISA 240.32", "ISA 500.6"]
+
+# ── Receivable Impairment ───────────────────────────────────────
+receivable_impairment:
+  risk: "Inadequate Bad Debt Provision"
+  assertions: [Valuation, Completeness]
+  procedures:
+    - type: Analytical
+      steps: ["Compare aging bucket trends YoY", "Calculate provision-to-AR ratio"]
+      evidence_required: [aging_report, ar_ledger]
+    - type: Confirmation
+      steps: ["Confirm AR balances with debtors"]
+      evidence_required: [customer_confirmations]
+  related_standards: ["IAS 36.59", "ISA 330.18"]
+
+# ── Inventory Valuation ─────────────────────────────────────────
+inventory_valuation:
+  risk: "Inventory Obsolescence Risk"
+  assertions: [Valuation, Existence]
+  procedures:
+    - type: Inspection
+      steps: ["Observe inventory count", "Review slow-moving report"]
+      evidence_required: [inventory_list, slow_moving_report]
+    - type: Recalculation
+      steps: ["Recalculate NRV for selected items"]
+      evidence_required: [costing_sheets]
+  related_standards: ["IAS 2.9", "ISA 501.4"]
+
+# ── Expense Cutoff ──────────────────────────────────────────────
+expense_cutoff:
+  risk: "Expense Capitalization Error"
+  assertions: [Cutoff, Accuracy]
+  procedures:
+    - type: Inspection
+      steps: ["Review invoices near period end", "Trace to correct period"]
+      evidence_required: [invoices, general_ledger]
+    - type: Analytical
+      steps: ["Compare expense patterns pre/post year-end"]
+      evidence_required: [expense_summary]
+  related_standards: ["IAS 1.27", "ISA 500.8"]
+
+# ── Fixed Asset ─────────────────────────────────────────────────
+fixed_asset:
+  risk: "Asset Impairment Not Recognized"
+  assertions: [Valuation, Rights]
+  procedures:
+    - type: Inspection
+      steps: ["Review fixed asset register", "Check impairment indicators"]
+      evidence_required: [asset_register, impairment_test_docs]
+    - type: Recalculation
+      steps: ["Recalculate depreciation for sample items"]
+      evidence_required: [depreciation_schedule]
+  related_standards: ["IAS 36.9", "ISA 501.6"]
+
+# ── Related Party ───────────────────────────────────────────────
+related_party:
+  risk: "Undisclosed Related Party Transactions"
+  assertions: [Completeness, Presentation]
+  procedures:
+    - type: Inquiry
+      steps: ["Interview management on related parties", "Review board meeting minutes"]
+      evidence_required: [management_representations, board_minutes]
+    - type: Analytical
+      steps: ["Scan for unusual transactions"]
+      evidence_required: [transaction_list]
+  related_standards: ["IAS 24.18", "ISA 550.12"]
+
+# ── Fraud Risk ──────────────────────────────────────────────────
+fraud_risk:
+  risk: "Management Override of Controls"
+  assertions: [Existence, Accuracy]
+  procedures:
+    - type: Inspection
+      steps: ["Review journal entries for unusual patterns", "Examine estimates for bias"]
+      evidence_required: [journal_entry_log, accounting_estimates]
+    - type: Analytical
+      steps: ["Analyze revenue trends vs industry"]
+      evidence_required: [revenue_analysis]
+  related_standards: ["ISA 240.32", "ISA 240.46"]

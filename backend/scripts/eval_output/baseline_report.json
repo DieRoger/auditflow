@@ -1,0 +1,17 @@
+{
+  "timestamp": "2026-07-27T08:00:52.822667",
+  "agent_name": "risk_agent",
+  "benchmark_name": "audit_risk_baseline",
+  "cases": 8,
+  "metrics": {
+    "risk_classification_accuracy": 0.375,
+    "severity_accuracy": 0.75,
+    "citation_completeness": 1.0
+  },
+  "grounding": {
+    "rate": 1.0,
+    "avg_hallucination_risk": 0.2062
+  },
+  "duration_seconds": 30.409,
+  "passed": true
+}
