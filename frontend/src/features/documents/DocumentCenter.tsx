@@ -97,8 +97,12 @@ const DocumentCenter: React.FC = () => {
       </div>
 
       {loading ? (
-        <div>Loading...</div>
+        <div style={{ color: "#64748b" }}>Loading...</div>
       ) : (
+        <>
+        {error && <div style={{ background: "#fef2f2", color: "#dc2626", padding: "8px 12px", borderRadius: 4, marginBottom: 12, fontSize: 13 }}>
+          ⚠ API unavailable ({error}). Showing demo data.
+        </div>}
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
           <thead>
             <tr style={{ background: "#f8fafc", textAlign: "left" }}>
@@ -133,10 +137,11 @@ const DocumentCenter: React.FC = () => {
               </tr>
             ))}
             {docs.length === 0 && (
-              <tr><td colSpan={6} style={{ textAlign: "center", padding: 24, color: "#94a3b8" }}>No documents yet</td></tr>
+              <tr><td colSpan={6} style={{ textAlign: "center", padding: 24, color: "#94a3b8" }}>No documents yet. Upload a PDF to get started.</td></tr>
             )}
           </tbody>
         </table>
+        </>
       )}
     </div>
   );
