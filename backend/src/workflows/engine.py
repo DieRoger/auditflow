@@ -85,7 +85,7 @@ class WorkflowEngine:
         self._graphs[workflow_id] = graph
         self._states[workflow_id] = WorkflowState(
             workflow_id=workflow_id,
-            status="CREATED",
+            status="QUEUED",
             created_at=datetime.now().isoformat(),
             updated_at=datetime.now().isoformat(),
         )
@@ -100,10 +100,12 @@ class WorkflowEngine:
         state.updated_at = datetime.now().isoformat()
 
     async def _execute_node(self, workflow_id: str, node: AgentNode) -> None:
-        """执行单个 Agent 节点（含重试逻辑）"""
+        """执行单个 Agent 节点（含重试逻辑 + Token 预算）"""
         state = self._get_state(workflow_id)
         state.current_node = node.id
         max_retries = (node.retry_policy or {}).get("max_retries", 3)
+        from .budget.tracker import TokenBudgetTracker, BudgetExceededError
+        budget = TokenBudgetTracker()
 
         for attempt in range(1, max_retries + 1):
             start_time = datetime.now()
@@ -135,8 +137,15 @@ class WorkflowEngine:
                     memory={},
                 )
 
-                response = await agent.execute(request)
+                # 在 Sandbox 中执行 Agent（超时控制 + 异常隔离）
+                from infrastructure.sandbox.sandbox import AsyncTimeoutSandbox
+                sandbox = AsyncTimeoutSandbox(timeout=node.timeout_seconds, budget_tracker=budget)
+                response = await sandbox.run(agent.execute, request)
                 duration = int((datetime.now() - start_time).total_seconds() * 1000)
+                # 记录 Token 到预算
+                tok = response.metrics.get("tokens", 0)
+                if tok:
+                    budget.record_tokens(tok)
                 state.agent_results[node.id] = response.model_dump()
                 # 将 result 内容合并到顶层，便于下游 Agent 直接访问 artifact
                 if isinstance(response.result, dict):

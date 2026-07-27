@@ -1,6 +1,8 @@
 """LLM Base Agent — 通用 LLM Agent 基类"""
 
 import json
+import os
+from pathlib import Path
 
 import structlog
 
@@ -20,6 +22,22 @@ class LlmBaseAgent(BaseAgent):
         except ValueError:
             from infrastructure.llm.openai_provider import OpenAIProvider
             self._llm = OpenAIProvider()
+
+    def load_prompt(self, agent_name: str, version: str = "v1") -> str:
+        """从 prompts/ 目录加载系统 prompt
+        
+        查找顺序: 
+          1. <project_root>/prompts/<agent_name>/<version>.md
+          2. <project_root>/prompts/<agent_name>/v1.md (fallback)
+          3. 返回空字符串
+        """
+        # 从 backend/src/agents/ 向上 4 层到项目根
+        base = Path(__file__).parents[3] / "prompts" / agent_name
+        for candidate in [base / f"{version}.md", base / "v1.md"]:
+            if candidate.exists():
+                return candidate.read_text(encoding="utf-8")
+        logger.warning("prompt_not_found", agent=agent_name, version=version)
+        return ""
 
     async def call_llm(self, system_prompt: str, user_prompt: str, max_tokens: int = 1024) -> dict:
         """调用 LLM 并解析 JSON 响应"""
