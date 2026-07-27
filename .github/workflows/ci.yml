@@ -1,0 +1,90 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        run: pip install uv
+      - name: Install deps
+        run: uv sync --all-extras
+        working-directory: ./backend
+      - name: Ruff lint
+        run: uv run ruff check src/
+        working-directory: ./backend
+      - name: Ruff format
+        run: uv run ruff format --check src/
+        working-directory: ./backend
+      - name: MyPy type-check
+        run: uv run mypy src/
+        working-directory: ./backend
+      - name: Bandit security scan
+        run: uv run bandit -r src/ -c pyproject.toml
+        working-directory: ./backend
+
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: pgvector/pgvector:pg17
+        env:
+          POSTGRES_DB: auditflow
+          POSTGRES_USER: auditflow
+          POSTGRES_PASSWORD: auditflow
+        options: >-
+          --health-cmd "pg_isready -U auditflow"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install uv
+        run: pip install uv
+      - name: Install deps
+        run: uv sync --all-extras
+        working-directory: ./backend
+      - name: Run tests
+        run: uv run pytest tests/ -v --cov=src --cov-report=term
+        working-directory: ./backend
+        env:
+          DATABASE_URL: postgresql+asyncpg://auditflow:auditflow@localhost:5432/auditflow
+          REDIS_URL: redis://localhost:6379/0
+      - name: AI Evaluation baseline check
+        run: uv run python scripts/eval_v2.py
+        working-directory: ./backend
+        env:
+          DATABASE_URL: postgresql+asyncpg://auditflow:auditflow@localhost:5432/auditflow
+          HF_HUB_DISABLE_SYMLINKS_WARNING: "1"
+
+  docker:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: [lint, test]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build Docker image
+        run: docker build -t auditflow-api:${{ github.sha }} ./backend

@@ -7,6 +7,9 @@ from fastapi import FastAPI
 from api.middleware.trace import TraceIDMiddleware
 from api.routers.agents import router as agents_router
 from api.routers.documents import router as documents_router
+from api.routers.workflows import router as workflows_router
+from api.routers.knowledge import router as knowledge_router
+from api.websocket.handler import router as ws_router
 from shared.logging import configure_logging, get_logger
 
 configure_logging()
@@ -34,6 +37,9 @@ app = FastAPI(
 app.add_middleware(TraceIDMiddleware)
 app.include_router(agents_router)
 app.include_router(documents_router)
+app.include_router(workflows_router)
+app.include_router(knowledge_router)
+app.include_router(ws_router)
 
 
 @app.get("/health")
