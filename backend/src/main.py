@@ -5,6 +5,7 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI
 
 from api.middleware.trace import TraceIDMiddleware
+from api.middleware.rate_limit import RateLimitMiddleware
 from api.routers.agents import router as agents_router
 from api.routers.documents import router as documents_router
 from api.routers.workflows import router as workflows_router
@@ -35,6 +36,7 @@ app = FastAPI(
 )
 
 app.add_middleware(TraceIDMiddleware)
+app.add_middleware(RateLimitMiddleware, default_limit=100, window_seconds=60)
 app.include_router(agents_router)
 app.include_router(documents_router)
 app.include_router(workflows_router)
