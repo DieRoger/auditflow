@@ -147,9 +147,25 @@ async def run_demo():
             print(f"      [{i}] {f.description}")
     print(f"    {'='*55}")
 
-    # Summary
+    # 7. Misstatement Engine
+    print(f"\n[7] Misstatement Engine — Known/Likely/Projected")
+    from domain.audit.entities.misstatement import MisstatementEngine, MisstatementSummary
+    from decimal import Decimal
+
+    tolerable = Decimal("50000")  # $50K 重要性水平
+    engine = MisstatementEngine(tolerable_error=tolerable)
+    summary = engine.generate(findings, period="FY2025")
+
+    print(f"    Tolerable Error: ${tolerable:,.0f}")
+    print(f"    Known Misstatements: ${summary.total_known:,.0f}")
+    print(f"    Uncorrected (>de minimis): {summary.uncorrected_count} items")
+    print(f"    Conclusion: {'EXCEEDS' if summary.exceeds_tolerable else 'WITHIN'} tolerable error")
+    for adj in summary.adjustments:
+        print(f"    {adj.entry_type.value}: DR {adj.debit_account} / CR {adj.credit_account} ${adj.debit_amount:,.0f}")
+
+    # 8. Summary
     print(f"\n{'='*65}")
-    print(f"  Demo Complete")
+    print(f"  Demo Complete — Phase A/B/C/D")
     print(f"  {'='*65}")
     print(f"  Risk: {risk.get('severity')} — {risk.get('title')}")
     print(f"  Program: {program.summary()}")
