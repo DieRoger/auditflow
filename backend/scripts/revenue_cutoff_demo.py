@@ -163,9 +163,73 @@ async def run_demo():
     for adj in summary.adjustments:
         print(f"    {adj.entry_type.value}: DR {adj.debit_account} / CR {adj.credit_account} ${adj.debit_amount:,.0f}")
 
-    # 8. Summary
+    # 8. Audit Completion
+    print(f"\n[8] Audit Completion — Partner Review + EQCR + Opinion")
+    from domain.audit.entities.completion import (
+        AuditCompletion, PartnerReview, EQCR, AuditOpinion,
+        ManagementRepresentation, EngagementArchive, ReviewConclusion, OpinionType,
+    )
+
+    evidence_insufficient = graph.overall_conclusion().value != "SATISFIED"
+    completion = AuditCompletion(
+        engagement_id="ENG-2025-001", period="FY2025",
+        misstatement_summary={"exceeds": summary.exceeds_tolerable, "total_known": str(summary.total_known)},
+    )
+
+    # Partner Review
+    completion.partner_review = PartnerReview(
+        reviewer="Partner Wang",
+        conclusion=ReviewConclusion.APPROVED,
+        notes=f"AJE for ${summary.total_known:,.0f} revenue cutoff required. Evidence graph shows CUTOFF 50%, OCC 33%. Recommend QUALIFIED opinion.",
+        issues_found=[f"Revenue cutoff exception: {f.description[:60]}" for f in findings],
+    )
+
+    # EQCR
+    completion.eqcr = EQCR(
+        reviewer="EQCR Reviewer Li",
+        conclusion=ReviewConclusion.APPROVED,
+        key_judgments_reviewed=["Revenue cutoff period", "Materiality threshold of $50K", "Going concern assessment"],
+    )
+
+    # Opinion
+    completion.opinion = AuditOpinion(
+        opinion_type=completion.determine_opinion(summary.exceeds_tolerable, evidence_insufficient),
+        issuance_date=date.today(),
+        basis_paragraphs=[
+            f"Revenue cutoff testing identified ${summary.total_known:,.0f} in known misstatements",
+            f"Evidence coverage: CUTOFF 50%, OCCURRENCE 33%",
+            f"Proposed AJE to restate revenue by ${summary.total_known:,.0f}",
+        ],
+        emphasis_of_matter="Revenue Cutoff — $215K adjustment proposed for Q4 2025 transactions shipped in Q1 2026.",
+    )
+
+    # Representation Letter
+    completion.representation = ManagementRepresentation(
+        representations=[
+            "All financial records have been made available to the auditor",
+            "All revenue transactions are recorded in the correct period to the best of management's knowledge",
+            "No side agreements or undisclosed contract modifications exist",
+            "Management acknowledges the proposed $215K revenue cutoff adjustment",
+        ],
+    )
+    completion.representation.sign("CEO Zhang / CFO Liu")
+
+    # Archive
+    completion.archive = EngagementArchive(engagement_id="ENG-2025-001", retention_years=5)
+
+    comp_summary = completion.summary()
+    print(f"    Partner Review: {comp_summary['partner_review']['conclusion']}")
+    print(f"    EQCR: {comp_summary['eqcr']['conclusion']}")
+    print(f"    Opinion: {comp_summary['opinion']}")
+    print(f"    Representation: {comp_summary['representation']}")
+    print(f"    Complete: {comp_summary['complete']}")
+
+    if completion.opinion and completion.opinion.opinion_type != OpinionType.UNQUALIFIED:
+        print(f"\n    [MODIFIED] {completion.opinion.emphasis_of_matter}")
+
+    # 9. Summary
     print(f"\n{'='*65}")
-    print(f"  Demo Complete — Phase A/B/C/D")
+    print(f"  Demo Complete — Phase A/B/C/D/E")
     print(f"  {'='*65}")
     print(f"  Risk: {risk.get('severity')} — {risk.get('title')}")
     print(f"  Program: {program.summary()}")
