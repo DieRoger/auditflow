@@ -97,6 +97,32 @@ class EvidenceGraph:
             return AssertionConclusion.PARTIALLY_SATISFIED
         return AssertionConclusion.SATISFIED
 
+    def overall_coverage(self) -> float:
+        """整体证据覆盖率 — 所有认定的平均覆盖率"""
+        if not self.assertions:
+            return 0.0
+        return sum(a.coverage() for a in self.assertions) / len(self.assertions)
+
+    def total_evidence_nodes(self) -> int:
+        """证据节点总数"""
+        return sum(len(a.evidence_nodes) for a in self.assertions)
+
+    def missing_evidence_summary(self) -> list[dict]:
+        """汇总所有缺失的证据"""
+        missing = []
+        for a in self.assertions:
+            for mt in a.missing_types():
+                missing.append({
+                    "assertion": a.assertion_type,
+                    "missing_type": mt,
+                    "required": a.required_evidence_types,
+                })
+        return missing
+
+    def is_sufficient(self, threshold: float = 0.75) -> bool:
+        """证据是否充分（覆盖率 >= 阈值）"""
+        return self.overall_coverage() >= threshold
+
     def summary(self) -> dict:
         """生成摘要"""
         return {
@@ -114,6 +140,10 @@ class EvidenceGraph:
                 for a in self.assertions
             ],
             "overall": self.overall_conclusion().value,
+            "overall_coverage": f"{self.overall_coverage():.0%}",
+            "total_evidence": self.total_evidence_nodes(),
+            "sufficient": self.is_sufficient(),
+            "missing_evidence": self.missing_evidence_summary(),
         }
 
 
