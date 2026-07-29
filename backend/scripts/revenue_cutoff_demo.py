@@ -112,8 +112,27 @@ async def run_demo():
         if f.amount:
             print(f"       Amount: ${f.amount} | Txn: {f.transaction_ref[:12]}")
 
-    # 5. Working Paper
-    print(f"\n[5] Working Paper")
+    # 5. Evidence Graph
+    print(f"\n[5] Evidence Graph")
+    from domain.audit.entities.evidence_graph import EvidenceMapper
+
+    # 构建 Document 索引
+    from domain.finance.entities.transaction import Document, DocumentType
+    doc_index = {}
+    for i, txn in enumerate(transactions):
+        for dr in txn.document_refs:
+            doc_index[dr] = Document(document_id=dr, document_type=DocumentType.INVOICE, document_no=f"INV-{i}")
+            break
+    mapper = EvidenceMapper()
+    graph = mapper.build_graph(proc, transactions, findings, doc_index)
+    s = graph.summary()
+    print(f"    Overall: {s['overall']}")
+    for a in s["assertions"]:
+        icon = "[OK]" if a["conclusion"] == "SATISFIED" else "[WARN]" if a["conclusion"] == "PARTIALLY" else "[FAIL]"
+        print(f"    {icon} {a['type']}: {a['conclusion']} ({a['coverage']}) — missing: {a['missing']}")
+
+    # 6. Working Paper
+    print(f"\n[6] Working Paper")
     print(f"    {'='*55}")
     print(f"    Revenue Cutoff — Audit Working Paper")
     print(f"    {'='*55}")
