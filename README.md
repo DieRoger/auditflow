@@ -2,45 +2,71 @@
 
 # AuditFlow
 
-### AI-Native Audit Intelligence Platform
+### An Evidence-Driven Audit Execution Prototype
 
-> **From Financial Statements to Audit Workpapers and Reports — End-to-End AI Audit Pipeline**
+> **End-to-End Revenue Cutoff Audit: Excel → Risk → Procedure → Evidence → Misstatement → Opinion**
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
 ![React](https://img.shields.io/badge/React-Frontend-blue)
 ![PGVector](https://img.shields.io/badge/PGVector-RAG-red)
 ![License](https://img.shields.io/badge/License-Apache_2.0-orange)
+![Status](https://img.shields.io/badge/Status-Prototype-yellow)
 
 </div>
 
+**AuditFlow is not a full-audit-lifecycle ERP.** It is an AI-native audit execution prototype that demonstrates a complete evidence-to-opinion workflow through a Revenue Cutoff vertical slice. Every conclusion is grounded in retrieved evidence — from Excel import to ISA-compliant audit opinion, fully automated.
+
+## Scope
+
+| In Scope (AI-native core) | Out of Scope (human judgment) |
+|---------------------------|-------------------------------|
+| Risk Assessment & Identification | Client acceptance / Independence |
+| Procedure Generation & Execution | Engagement letter / Billing |
+| Evidence Collection & Graph | Staff scheduling |
+| Misstatement Evaluation & AJE | Physical inventory observation |
+| Audit Opinion Formation | — |
+
+## Current Capability
+
+| Capability | Maturity | Notes |
+|-----------|----------|-------|
+| **Revenue Cutoff Vertical Slice** | ⭐⭐⭐⭐⭐ | Full end-to-end closed loop |
+| **Workflow Engine** | ⭐⭐⭐⭐⭐ | DAG + HITL + Trace + Checkpoint |
+| **Risk Identification** | ⭐⭐⭐⭐☆ | Strong on document-based; lacks structured financial analytics |
+| **Procedure Framework** | ⭐⭐⭐⭐☆ | Framework mature; procedure library limited (1/8 cycles) |
+| **Evidence Intelligence** | ⭐⭐⭐⭐☆ | Citation, retrieval, graph framework; needs structured evidence mapping |
+| **Completion & Reporting** | ⭐⭐⭐⭐☆ | Templates and rules mostly complete |
+| **Misstatement Evaluation** | ⭐⭐⭐☆☆ | Known/Likely/Projected classification; needs projection formulas |
+| **Financial Data Foundation** | ⭐☆☆☆☆ | Phase A just started; Excel import MVP ready |
+| **Procedure Library** | ⭐☆☆☆☆ | Only Revenue Cutoff; 7 cycles remaining
+
 ---
 
-## Demo
+## Demo — Revenue Cutoff Audit (Full Pipeline)
 
-```
-PDF Upload
+```text
+Excel Import (29 sales transactions)
     ↓
-Document Parsing (PyMuPDF / RapidOCR)
+Risk Assessment (DeepSeek LLM: HIGH — Premature Revenue Recognition)
     ↓
-Semantic Chunking
+Audit Program (CUTOFF_TEST, Assertions: [Cutoff, Occurrence])
     ↓
-Local Embedding (BGE 384-dim)
+Procedure Execution (4 cutoff exceptions found, 13.8% exception rate)
     ↓
-PGVector Retrieval
+Evidence Graph (CUTOFF 50%, OCCURRENCE 33% → PARTIALLY SATISFIED)
     ↓
-┌─────────────────────────────────────┐
-│        Workflow Engine              │
-│  Planner → Knowledge → Risk →       │
-│  Evidence → Reviewer                │
-└─────────────────────────────────────┘
+Misstatement Engine ($215K known → EXCEEDS $50K tolerable → 4 AJE)
     ↓
-Audit Workpaper (Markdown)
-    ↓
-Audit Report (ISA 700 Compliant)
+Audit Opinion (DISCLAIMER — per ISA 705)
 ```
 
-**Example output:** [`examples/workpaper.md`](examples/workpaper.md) · [`examples/report.md`](examples/report.md)
+**Run it:**
+```bash
+cd backend
+$env:PYTHONPATH="src"
+py -3.11 scripts/revenue_cutoff_demo.py
+```
 
 ---
 
