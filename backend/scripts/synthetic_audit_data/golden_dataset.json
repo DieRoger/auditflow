@@ -1,0 +1,82 @@
+[
+  {
+    "risk_id": "R01",
+    "description": "收入提前确认",
+    "year": "2025",
+    "account": "6001-营业收入",
+    "amount": 261414.42,
+    "date": "2025-12-31",
+    "severity": "HIGH",
+    "detected": false
+  },
+  {
+    "risk_id": "R02",
+    "description": "虚构关联方交易",
+    "year": "2025",
+    "account": "6001-营业收入",
+    "amount": 1200000.0,
+    "date": "2025-12-15",
+    "severity": "HIGH",
+    "detected": false
+  },
+  {
+    "risk_id": "R03",
+    "description": "大额退货未冲减收入",
+    "year": "2025",
+    "account": "6001-营业收入",
+    "amount": 800000.0,
+    "date": "2025-12-20",
+    "severity": "HIGH",
+    "detected": false
+  },
+  {
+    "risk_id": "R04",
+    "description": "12月收入占比异常",
+    "year": "2025",
+    "account": "6001-营业收入",
+    "amount": 0.0,
+    "date": "2025-12",
+    "severity": "MEDIUM",
+    "detected": false
+  },
+  {
+    "risk_id": "R05",
+    "description": "收入高度集中于单一客户",
+    "year": "2025",
+    "account": "6001-营业收入",
+    "amount": 0.0,
+    "date": "2025",
+    "severity": "MEDIUM",
+    "detected": false
+  },
+  {
+    "risk_id": "R06",
+    "description": "应收账款大幅增长但坏账准备未同步计提",
+    "year": "2025",
+    "account": "1122-应收账款",
+    "amount": 0.0,
+    "date": "2025",
+    "severity": "HIGH",
+    "detected": false
+  },
+  {
+    "risk_id": "R07",
+    "description": "未披露重大销售折扣和折让",
+    "year": "2025",
+    "account": "6001-营业收入",
+    "amount": 500000.0,
+    "date": "2025-12-25",
+    "severity": "MEDIUM",
+    "detected": false
+  },
+  {
+    "risk_id": "R08",
+    "description": "期末大量整数金额记录（无交易明细支撑）",
+    "year": "2025",
+    "account": "6001-营业收入",
+    "amount": 1000000.0,
+    "date": "2025-12-31",
+    "severity": "MEDIUM",
+    "detected": false
+  }
+]
