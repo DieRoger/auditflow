@@ -1,28 +1,25 @@
-"""Related Party Signal + Province Mismatch Signal"""
-from .base import Signal, SignalResult
+"""Related Party Signal"""
+from .base import Detection, Signal
 
 
 class RelatedPartySignal(Signal):
     name = "related_party"
 
-    def detect(self, row: dict) -> SignalResult:
+    def detect(self, row: dict) -> Detection:
         if row.get("Related_Party_Flag", "").strip() == "1":
-            return SignalResult(
-                signal_name=self.name, score=4.0,
-                evidence=[f"Related party transaction"],
-                explanation="Related party",
-            )
-        return SignalResult(signal_name=self.name)
+            return Detection(signal=self.name, severity="HIGH", confidence=0.9,
+                evidence=["Related party flag"],
+                explanation="Counterparty identified as related party",
+                recommendation="Verify transaction at arm's length")
+        return None
 
 
 class ProvinceMismatchSignal(Signal):
     name = "province_mismatch"
 
-    def detect(self, row: dict) -> SignalResult:
+    def detect(self, row: dict) -> Detection:
         if row.get("Province_Mismatch_Flag", "").strip() == "1":
-            return SignalResult(
-                signal_name=self.name, score=2.0, severity="MEDIUM",
-                evidence=[f"Cross-province transaction"],
-                explanation="Province mismatch",
-            )
-        return SignalResult(signal_name=self.name)
+            return Detection(signal=self.name, severity="MEDIUM",
+                evidence=["Cross-province transaction"],
+                explanation="Transaction crosses province boundaries")
+        return None

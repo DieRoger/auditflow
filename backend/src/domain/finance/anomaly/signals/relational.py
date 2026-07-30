@@ -1,54 +1,48 @@
-"""Relational + Temporal + Violation Signals"""
-from .base import Signal, SignalResult
+"""Relational/Temporal/Violation Signals"""
+from .base import Detection, Signal
 
 
 class RelationalAnomalySignal(Signal):
     name = "relational_anomaly"
 
-    def detect(self, row: dict) -> SignalResult:
+    def detect(self, row: dict) -> Detection:
         try:
             score = float(row.get("Relational_Anomaly_Score", 0))
-        except:
-            return SignalResult(signal_name=self.name)
+        except (ValueError, TypeError):
+            return None
         if score > 0.8:
-            return SignalResult(signal_name=self.name, score=5.0, severity="HIGH",
-                evidence=[f"Relational anomaly score: {score:.2f}"], explanation="High relational anomaly")
+            return Detection(signal=self.name, severity="HIGH", confidence=score)
         if score > 0.6:
-            return SignalResult(signal_name=self.name, score=3.0, severity="MEDIUM",
-                evidence=[f"Relational anomaly score: {score:.2f}"], explanation="Medium relational anomaly")
-        if score > 0.4:
-            return SignalResult(signal_name=self.name, score=1.0, severity="LOW",
-                evidence=[f"Relational anomaly score: {score:.2f}"], explanation="Low relational anomaly")
-        return SignalResult(signal_name=self.name)
+            return Detection(signal=self.name, severity="MEDIUM", confidence=score)
+        return None
 
 
 class TemporalBurstSignal(Signal):
     name = "temporal_burst"
 
-    def detect(self, row: dict) -> SignalResult:
+    def detect(self, row: dict) -> Detection:
         try:
             score = float(row.get("Temporal_Burst_Score", 0))
-        except:
-            return SignalResult(signal_name=self.name)
+        except (ValueError, TypeError):
+            return None
         if score > 0.8:
-            return SignalResult(signal_name=self.name, score=3.0, severity="HIGH",
-                evidence=[f"Burst score: {score:.2f}"], explanation="High temporal burst")
+            return Detection(signal=self.name, severity="HIGH", confidence=score)
         if score > 0.5:
-            return SignalResult(signal_name=self.name, score=1.0, severity="MEDIUM",
-                evidence=[f"Burst score: {score:.2f}"], explanation="Medium temporal burst")
-        return SignalResult(signal_name=self.name)
+            return Detection(signal=self.name, severity="MEDIUM", confidence=score)
+        return None
 
 
 class AuditViolationSignal(Signal):
     name = "audit_violation"
 
-    def detect(self, row: dict) -> SignalResult:
+    def detect(self, row: dict) -> Detection:
         try:
             count = int(row.get("Audit_Rule_Violation_Count", 0))
-        except:
-            return SignalResult(signal_name=self.name)
+        except (ValueError, TypeError):
+            return None
         if count > 0:
-            score = min(count * 2, 6)
-            return SignalResult(signal_name=self.name, score=float(score), severity="HIGH",
-                evidence=[f"{count} audit rule violations"], explanation=f"Violations: {count}")
-        return SignalResult(signal_name=self.name)
+            return Detection(signal=self.name, severity="HIGH", confidence=min(0.5 + count * 0.1, 1.0),
+                evidence=[f"{count} audit rule violations"],
+                explanation=f"Transaction violates {count} audit rules",
+                recommendation="Review each violation with audit lead")
+        return None
