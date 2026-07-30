@@ -26,37 +26,32 @@ class RiskScoringEngine:
         ]
 
     def assess(self, row: dict, risk_profiles: list[str] = None) -> list[dict]:
-        """对单行交易评估多个风险类型
-
-        返回: [{risk, total, flagged, signals: [{name, score, detail}]}, ...]
-        """
+        """对单行交易评估多个风险类型"""
         # Step 1: 运行所有 Signal
         raw_signals = {}
+        signal_details = {}
         signal_items = []
         for sig in self._signals:
             result = sig.detect(row)
-            if result.score > 0:
+            if result.is_flagged():
                 raw_signals[result.signal_name] = result.score
-                signal_items.append({
-                    "name": result.signal_name,
-                    "score": result.score,
-                    "detail": result.detail,
-                    "evidence": result.evidence,
-                })
+                signal_details[result.signal_name] = result
+                signal_items.append(result.to_dict())
 
         # Step 2: 按 RiskProfile 加权评分
         profiles_to_run = risk_profiles or list(ALL_PROFILES.keys())
         results = []
         for key in profiles_to_run:
             profile = ALL_PROFILES[key]
-            scoring = profile.score(raw_signals)
+            scoring = profile.score(raw_signals, signal_details)
             results.append({
                 "risk": scoring["risk"],
                 "score": scoring["total"],
                 "threshold": scoring["threshold"],
                 "flagged": scoring["flagged"],
                 "signals": signal_items,
-                "breakdown": scoring["breakdown"],
+                "breakdown": scoring.get("breakdown", {}),
+                "reason": scoring.get("reason"),
             })
 
         return results

@@ -11,14 +11,14 @@ class RelationalAnomalySignal(Signal):
         except:
             return SignalResult(signal_name=self.name)
         if score > 0.8:
-            return SignalResult(signal_name=self.name, score=5.0,
-                evidence=[f"Relational anomaly score: {score:.2f}"], detail="High relational anomaly")
+            return SignalResult(signal_name=self.name, score=5.0, severity="HIGH",
+                evidence=[f"Relational anomaly score: {score:.2f}"], explanation="High relational anomaly")
         if score > 0.6:
-            return SignalResult(signal_name=self.name, score=3.0,
-                evidence=[f"Relational anomaly score: {score:.2f}"], detail="Medium relational anomaly")
+            return SignalResult(signal_name=self.name, score=3.0, severity="MEDIUM",
+                evidence=[f"Relational anomaly score: {score:.2f}"], explanation="Medium relational anomaly")
         if score > 0.4:
-            return SignalResult(signal_name=self.name, score=1.0,
-                evidence=[f"Relational anomaly score: {score:.2f}"], detail="Low relational anomaly")
+            return SignalResult(signal_name=self.name, score=1.0, severity="LOW",
+                evidence=[f"Relational anomaly score: {score:.2f}"], explanation="Low relational anomaly")
         return SignalResult(signal_name=self.name)
 
 
@@ -31,11 +31,11 @@ class TemporalBurstSignal(Signal):
         except:
             return SignalResult(signal_name=self.name)
         if score > 0.8:
-            return SignalResult(signal_name=self.name, score=3.0,
-                evidence=[f"Burst score: {score:.2f}"], detail="High temporal burst")
+            return SignalResult(signal_name=self.name, score=3.0, severity="HIGH",
+                evidence=[f"Burst score: {score:.2f}"], explanation="High temporal burst")
         if score > 0.5:
-            return SignalResult(signal_name=self.name, score=1.0,
-                evidence=[f"Burst score: {score:.2f}"], detail="Medium temporal burst")
+            return SignalResult(signal_name=self.name, score=1.0, severity="MEDIUM",
+                evidence=[f"Burst score: {score:.2f}"], explanation="Medium temporal burst")
         return SignalResult(signal_name=self.name)
 
 
@@ -49,6 +49,6 @@ class AuditViolationSignal(Signal):
             return SignalResult(signal_name=self.name)
         if count > 0:
             score = min(count * 2, 6)
-            return SignalResult(signal_name=self.name, score=float(score),
-                evidence=[f"{count} audit rule violations"], detail=f"Violations: {count}")
+            return SignalResult(signal_name=self.name, score=float(score), severity="HIGH",
+                evidence=[f"{count} audit rule violations"], explanation=f"Violations: {count}")
         return SignalResult(signal_name=self.name)

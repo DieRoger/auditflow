@@ -162,6 +162,44 @@ Citations are **real** — they come from the retriever, not the LLM.
 | Severity Consistency | **100%** | Same case, same severity (2 runs) |
 | Risk Consistency | 75% | Same case, similar risk title (2 runs) |
 
+## Explainable Risk Scoring
+
+Transactions are scored by 12 independent signal detectors, weighted by domain-specific risk profiles, and aggregated into explainable findings.
+
+### Architecture
+
+```text
+Transaction
+    │
+    ▼
+12 Independent Signal Detectors
+    │
+    ▼
+Risk Profile (Revenue / Purchase / Expense)
+    │
+    ▼
+Risk Scoring Engine
+    │
+    ▼
+Explainable Finding → Procedure Agent → Evidence Graph
+```
+
+### Benchmark (Kaggle Financial Audit Transactions Dataset)
+
+| Dataset | Rows | Anomalies | Precision | Recall | F1 |
+|---------|------|-----------|-----------|--------|----|
+| Financial Audit | 7,000 | 955 | 52.8% | 83.1% | **64.6%** |
+
+### Per-Signal Precision
+
+| Signal | Precision | Description |
+|--------|-----------|-------------|
+| Round Number | **100%** | Large round amounts |
+| Related Party | **95.6%** | Related party transactions |
+| Amount Spike | 68.3% | Transaction > 5x historical avg |
+| Duplicate Invoice | 38.8% | Same invoice submitted twice |
+| Weekend/Night | 12.5% | Non-business-hour posting |
+
 ```bash
 # Quick baseline (8 cases, ~40s)
 python scripts/eval_v2.py

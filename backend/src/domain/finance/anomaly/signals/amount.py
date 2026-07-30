@@ -16,13 +16,13 @@ class AmountSpikeSignal(Signal):
             return SignalResult(
                 signal_name=self.name, score=4.0,
                 evidence=[f"Amount ${amount:,.0f} is {ratio:.1f}x historical avg"],
-                detail=f"Amount spike ({ratio:.1f}x)",
+                explanation=f"Amount spike ({ratio:.1f}x)",
             )
         if ratio > 3:
             return SignalResult(
                 signal_name=self.name, score=2.0,
                 evidence=[f"Amount {ratio:.1f}x historical avg"],
-                detail=f"Moderate spike",
+                explanation=f"Moderate spike",
             )
         return SignalResult(signal_name=self.name)
 
@@ -39,7 +39,7 @@ class RoundNumberSignal(Signal):
             return SignalResult(
                 signal_name=self.name, score=2.0,
                 evidence=[f"Round amount ${amount:,.0f}"],
-                detail="Round number",
+                explanation="Round number",
             )
         return SignalResult(signal_name=self.name)
 
@@ -56,12 +56,12 @@ class ThresholdViolationSignal(Signal):
             return SignalResult(
                 signal_name=self.name, score=3.0,
                 evidence=[f"Amount {ratio:.1f}x approval threshold"],
-                detail="Exceeds threshold",
+                explanation="Exceeds threshold",
             )
         if ratio > 1.0:
             return SignalResult(
                 signal_name=self.name, score=1.0,
                 evidence=[f"Amount exceeds threshold"],
-                detail="Near threshold",
+                explanation="Near threshold",
             )
         return SignalResult(signal_name=self.name)
