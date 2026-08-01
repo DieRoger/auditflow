@@ -14,6 +14,9 @@ build/
 .ruff_cache/
 .pytest_cache/
 
+# Node
+node_modules/
+
 # Database
 *.db
 *.sqlite
@@ -33,6 +36,8 @@ backend/scripts/demo_output/
 backend/scripts/sprint1_output/
 backend/scripts/eval_v2_output/
 backend/scripts/human_eval_output/
+backend/*.log
+*.log
 
 # Docker volumes (don't commit)
 pgdata/

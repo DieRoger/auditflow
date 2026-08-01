@@ -153,14 +153,48 @@ Citations are **real** — they come from the retriever, not the LLM.
 
 ## Evaluation
 
-| Metric | Score | Description |
-|--------|-------|-------------|
-| Risk Classification | 35% | Substring match against gold labels |
-| Severity Agreement | **80%** | HIGH/MEDIUM/LOW classification |
-| Evidence Recall | 78% | Key evidence keyword coverage |
-| Citation Validity | **100%** | All citations from real retrieved chunks |
-| Severity Consistency | **100%** | Same case, same severity (2 runs) |
-| Risk Consistency | 75% | Same case, similar risk title (2 runs) |
+> **Philosophy:** AuditFlow does not attempt to replace auditors. It reduces
+> review workload, organizes evidence, and supports professional judgment
+> through evidence-driven AI assistance.
+
+### Evaluation Pyramid — Layered Validation
+
+Every layer has an explicit ground truth, dataset, and metric:
+
+```
+        ┌─────────────┐
+        │  Workflow   │  Success Rate (Expected Pipeline)
+        ├─────────────┤
+        │  Evidence   │  Reference Completeness (Required Fields)
+        ├─────────────┤
+        │  Procedure  │  Mapping Coverage (Rule Mapping)
+        ├─────────────┤
+        │ Assessment  │  Risk Accuracy (Risk_Class)
+        ├─────────────┤
+        │  Detection  │  Precision / Recall / F1 (Abnormal_Label)
+        └─────────────┘
+```
+
+### Benchmark Dashboard (v1.0 — FROZEN)
+
+| Capability | Result | Ground Truth |
+|------------|--------|--------------|
+| Review Reduction | **89.0%** | Abnormal_Label |
+| Assessment Accuracy (Balanced) | **79.1% (60.6%)** | Risk_Class |
+| Evidence Reference Completeness | **100.0%** | Required Fields |
+| Procedure Mapping Coverage | **100.0%** | Rule Mapping |
+| Detection F1 | **60.1%** | Abnormal_Label |
+| Workflow Success Rate | **100.0%** (9/9 stages) | Expected Pipeline |
+| Full Kaggle 4-layer Scan (7,000 rows) | **0.40s** | — |
+
+![Benchmark Dashboard](docs/images/benchmark_dashboard.png)
+
+![Review Reduction Funnel](docs/images/pipeline_funnel.png)
+
+See [docs/engineering/BENCHMARK_FROZEN.md](docs/engineering/BENCHMARK_FROZEN.md)
+for the frozen configuration, and
+[docs/engineering/ERROR_ANALYSIS.md](docs/engineering/ERROR_ANALYSIS.md) for
+honest error analysis — what we cannot do, and why.
 
 ## Explainable Risk Scoring
 
