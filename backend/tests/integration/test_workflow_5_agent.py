@@ -219,7 +219,7 @@ async def test_state_transitions(registry, five_agent_graph):
     engine = WorkflowEngine(registry)
     wf_id = await engine.create(five_agent_graph)
 
-    assert engine.get_state(wf_id).status == "CREATED"
+    assert engine.get_state(wf_id).status == "QUEUED"
 
     state = await engine.run(wf_id)
     assert state.status == "COMPLETED"

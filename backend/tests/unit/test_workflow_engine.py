@@ -37,7 +37,7 @@ async def test_workflow_create_and_state():
     wf_id = await engine.create(graph)
     assert wf_id.startswith("wf_")
     state = engine.get_state(wf_id)
-    assert state.status == "CREATED"
+    assert state.status == "QUEUED"
 
 
 @pytest.mark.asyncio
