@@ -2,20 +2,22 @@
 
 # AuditFlow
 
-### An Evidence-Driven Audit Execution Prototype
+### Evidence-driven AI Audit Copilot
 
-> **End-to-End Revenue Cutoff Audit: Excel → Risk → Procedure → Evidence → Misstatement → Opinion**
+> **A human-in-the-loop audit intelligence system that reduces review workload through explainable risk detection, evidence grounding, and workflow automation.**
+>
+> 一个面向审计场景的 AI Copilot，通过可解释风险检测、证据关联和人工复核流程，降低审计人员的数据检查成本。
 
 ![Python](https://img.shields.io/badge/Python-3.11+-blue)
 ![FastAPI](https://img.shields.io/badge/FastAPI-Backend-green)
 ![React](https://img.shields.io/badge/React-Frontend-blue)
 ![PGVector](https://img.shields.io/badge/PGVector-RAG-red)
 ![License](https://img.shields.io/badge/License-Apache_2.0-orange)
-![Status](https://img.shields.io/badge/Status-Prototype-yellow)
+![Status](https://img.shields.io/badge/Status-v0.5.0-green)
 
 </div>
 
-**AuditFlow is not a full-audit-lifecycle ERP.** It is an AI-native audit execution prototype that demonstrates a complete evidence-to-opinion workflow through a Revenue Cutoff vertical slice. Every conclusion is grounded in retrieved evidence — from Excel import to ISA-compliant audit opinion, fully automated.
+**AuditFlow is not a full-audit-lifecycle ERP, nor does it attempt to replace auditors.** It is an evidence-driven audit copilot that reduces review workload (89% on 7,000 transactions), organizes evidence with citation grounding, and supports professional judgment through a human-in-the-loop review queue. Every AI recommendation is explainable and traceable — from Excel import to ISA-compliant audit opinion.
 
 ## Scope
 
@@ -190,6 +192,10 @@ Every layer has an explicit ground truth, dataset, and metric:
 ![Benchmark Dashboard](docs/images/benchmark_dashboard.png)
 
 ![Review Reduction Funnel](docs/images/pipeline_funnel.png)
+
+![Audit Evidence Chain](docs/images/evidence_chain.png)
+*Audit Evidence Chain — one transaction's full trail: Transaction → Signals →
+Assessment → Review Queue (HITL) → Procedure → Evidence → Reviewer*
 
 See [docs/engineering/BENCHMARK_FROZEN.md](docs/engineering/BENCHMARK_FROZEN.md)
 for the frozen configuration, and

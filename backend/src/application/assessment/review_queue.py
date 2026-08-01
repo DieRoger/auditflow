@@ -112,3 +112,45 @@ def build_review_queue(
         findings_count=len(assessment.detected_findings),
     ))
     return queue
+
+
+# ── Reviewer Feedback Loop (HITL Quality) ───────────────────────
+
+class ReviewCalibration:
+    """复核反馈统计 — Accepted Finding Rate 与校准
+
+    衡量 HITL 质量: AI 建议被审计师接受的比例。
+    不修改权重（Benchmark v1.0 FROZEN）— 只统计与报告。
+    """
+
+    @staticmethod
+    def accepted_finding_rate(queue: ReviewQueue) -> float:
+        """Accepted Finding Rate = accepted / reviewed"""
+        reviewed = queue.items
+        if not reviewed:
+            return 0.0
+        accepted = sum(1 for i in reviewed
+                       if i.decision == ReviewDecision.ACCEPT)
+        return accepted / len(reviewed) * 100
+
+    @staticmethod
+    def decision_distribution(queue: ReviewQueue) -> dict:
+        """三态分布"""
+        return {
+            "accepted": len(queue.accepted()),
+            "dismissed": len(queue.dismissed()),
+            "need_more_evidence": len(queue.need_more_evidence()),
+            "total_reviewed": len(queue.items),
+        }
+
+    @staticmethod
+    def simulate_calibration(initial_accept: int, initial_total: int,
+                             improved_accept: int, improved_total: int) -> dict:
+        """演示校准前后对比（如 67% → 82%）"""
+        before = initial_accept / initial_total * 100 if initial_total else 0
+        after = improved_accept / improved_total * 100 if improved_total else 0
+        return {
+            "before_pct": round(before, 1),
+            "after_pct": round(after, 1),
+            "improvement": round(after - before, 1),
+        }

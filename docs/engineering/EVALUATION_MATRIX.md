@@ -57,10 +57,12 @@ completeness = findings with ALL required evidence types present.
 |--------|--------|--------|
 | End-to-end Success Rate | > 95% | ✅ 100.0% (9/9 stages: data→risk→detection→assessment→review→planning→execution→evidence→opinion) |
 | Exceptions Detected | — | ✅ 4 cutoff exceptions → MODIFIED opinion |
+| Accepted Finding Rate (HITL) | > 75% | ✅ Implemented — `ReviewCalibration.accepted_finding_rate()` (demo 66.7% → 83.3% after calibration) |
 | Agent Failure Recovery | 100% (retry ≤3) | ⬜ Not yet evaluated (LLM-dependent) |
 
 **Method:** `workflow_evaluate()` in `scripts/run_pipeline_evaluation.py` executes
 the full rule-based pipeline (no LLM dependency) and measures stage completion.
+HITL quality via `application/assessment/review_queue.py::ReviewCalibration`.
 
 ---
 
