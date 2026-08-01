@@ -112,6 +112,32 @@ class AuditPlanArtifact(AuditArtifact):
     content: AuditPlanContent
 
 
+# ── FindingArtifact ──────────────────────────────────────────────
+
+class FindingItem(BaseModel):
+    """单条审计发现 — 来自 Anomaly Detection Engine"""
+    risk_type: str = ""
+    severity: str = "LOW"              # HIGH / MEDIUM / LOW
+    score: float = 0.0
+    confidence: float = 0.0
+    triggered_signals: list[dict] = Field(default_factory=list)
+    procedure_template: str = ""
+    affected_assertions: list[str] = Field(default_factory=list)
+
+
+class FindingContent(BaseModel):
+    """Anomaly Detection Engine 产出的一组审计发现"""
+    findings: list[FindingItem] = Field(default_factory=list)
+    total: int = 0
+    summary: dict = Field(default_factory=dict)  # {"HIGH": 5, "MEDIUM": 12, ...}
+
+
+class FindingArtifact(AuditArtifact):
+    __artifact_type__ = "finding"
+    artifact_type: Literal["finding"] = "finding"
+    content: FindingContent
+
+
 # ── ReviewReportArtifact ─────────────────────────────────────────
 
 class ReviewIssue(BaseModel):
@@ -142,6 +168,7 @@ ARTIFACT_REGISTRY: dict[str, type[AuditArtifact]] = {
     "evidence_package": EvidencePackageArtifact,
     "audit_plan": AuditPlanArtifact,
     "review_report": ReviewReportArtifact,
+    "finding": FindingArtifact,
 }
 
 
@@ -177,6 +204,7 @@ class ArtifactRegistry:
         registry = cls()
         registry.register(RiskFindingArtifact)
         registry.register(EvidencePackageArtifact)
+        registry.register(FindingArtifact)
         # registry.register(KnowledgePackageArtifact)  # E3 实现
         registry.register(AuditPlanArtifact)
         registry.register(ReviewReportArtifact)

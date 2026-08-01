@@ -6,6 +6,7 @@ from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
 
 from agents.base import AgentRegistry
+from agents.anomaly_detection.agent import AnomalyDetectionAgent
 from agents.evidence.agent import LlmEvidenceAgent
 from agents.knowledge.agent import LlmKnowledgeAgent
 from agents.planner.agent import LlmPlannerAgent
@@ -23,6 +24,7 @@ _registry.register(LlmKnowledgeAgent)
 _registry.register(LlmRiskAgent)
 _registry.register(LlmEvidenceAgent)
 _registry.register(LlmReviewerAgent)
+_registry.register(AnomalyDetectionAgent)
 
 
 class ExecuteRequest(BaseModel):

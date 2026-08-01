@@ -29,8 +29,16 @@ class Detection:
 
 
 class Signal:
-    """信号检测器基类"""
+    """信号检测器基类
+
+    mode 决定信号如何参与评分:
+      - "score": 参与 RiskProfile 加权评分（默认）
+      - "info":  仅输出解释信息，不参与评分
+      - "disabled": 完全不执行
+    """
     name: str = "base_signal"
+    mode: str = "score"        # score | info | disabled
+    precision: float = 0.0     # 来自 Benchmark 的 precision（0.0 表示未校准）
 
     def detect(self, row: dict) -> Optional[Detection]:
         """对单行交易检测信号，返回 None 表示未匹配"""

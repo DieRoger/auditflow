@@ -1,0 +1,862 @@
+{
+  "timestamp": "20260801_101652",
+  "dataset": 7000,
+  "best_threshold": 14,
+  "best_metrics": {
+    "precision": 64.1,
+    "recall": 56.0,
+    "f1": 59.8
+  },
+  "all_thresholds": {
+    "5": {
+      "total": 7000,
+      "threshold": 5,
+      "confusion_matrix": {
+        "tp": 701,
+        "fp": 732,
+        "fn": 254,
+        "tn": 5313
+      },
+      "metrics": {
+        "precision": 48.9,
+        "recall": 73.4,
+        "f1": 58.7
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "7": {
+      "total": 7000,
+      "threshold": 7,
+      "confusion_matrix": {
+        "tp": 613,
+        "fp": 684,
+        "fn": 342,
+        "tn": 5361
+      },
+      "metrics": {
+        "precision": 47.3,
+        "recall": 64.2,
+        "f1": 54.4
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "8": {
+      "total": 7000,
+      "threshold": 8,
+      "confusion_matrix": {
+        "tp": 606,
+        "fp": 683,
+        "fn": 349,
+        "tn": 5362
+      },
+      "metrics": {
+        "precision": 47.0,
+        "recall": 63.5,
+        "f1": 54.0
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "9": {
+      "total": 7000,
+      "threshold": 9,
+      "confusion_matrix": {
+        "tp": 603,
+        "fp": 547,
+        "fn": 352,
+        "tn": 5498
+      },
+      "metrics": {
+        "precision": 52.4,
+        "recall": 63.1,
+        "f1": 57.3
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "10": {
+      "total": 7000,
+      "threshold": 10,
+      "confusion_matrix": {
+        "tp": 603,
+        "fp": 547,
+        "fn": 352,
+        "tn": 5498
+      },
+      "metrics": {
+        "precision": 52.4,
+        "recall": 63.1,
+        "f1": 57.3
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "11": {
+      "total": 7000,
+      "threshold": 11,
+      "confusion_matrix": {
+        "tp": 603,
+        "fp": 517,
+        "fn": 352,
+        "tn": 5528
+      },
+      "metrics": {
+        "precision": 53.8,
+        "recall": 63.1,
+        "f1": 58.1
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "12": {
+      "total": 7000,
+      "threshold": 12,
+      "confusion_matrix": {
+        "tp": 603,
+        "fp": 517,
+        "fn": 352,
+        "tn": 5528
+      },
+      "metrics": {
+        "precision": 53.8,
+        "recall": 63.1,
+        "f1": 58.1
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "13": {
+      "total": 7000,
+      "threshold": 13,
+      "confusion_matrix": {
+        "tp": 537,
+        "fp": 316,
+        "fn": 418,
+        "tn": 5729
+      },
+      "metrics": {
+        "precision": 63.0,
+        "recall": 56.2,
+        "f1": 59.4
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "14": {
+      "total": 7000,
+      "threshold": 14,
+      "confusion_matrix": {
+        "tp": 535,
+        "fp": 300,
+        "fn": 420,
+        "tn": 5745
+      },
+      "metrics": {
+        "precision": 64.1,
+        "recall": 56.0,
+        "f1": 59.8
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    },
+    "15": {
+      "total": 7000,
+      "threshold": 15,
+      "confusion_matrix": {
+        "tp": 524,
+        "fp": 275,
+        "fn": 431,
+        "tn": 5770
+      },
+      "metrics": {
+        "precision": 65.6,
+        "recall": 54.9,
+        "f1": 59.7
+      },
+      "by_signal": {
+        "threshold_violation": {
+          "triggered": 2019,
+          "anomaly_hit": 624
+        },
+        "night": {
+          "triggered": 2406,
+          "anomaly_hit": 762
+        },
+        "temporal_burst": {
+          "triggered": 3978,
+          "anomaly_hit": 999
+        },
+        "duplicate_invoice": {
+          "triggered": 981,
+          "anomaly_hit": 381
+        },
+        "audit_violation": {
+          "triggered": 7239,
+          "anomaly_hit": 2259
+        },
+        "province_mismatch": {
+          "triggered": 6942,
+          "anomaly_hit": 2103
+        },
+        "weekend": {
+          "triggered": 2046,
+          "anomaly_hit": 582
+        },
+        "tax_mismatch": {
+          "triggered": 864,
+          "anomaly_hit": 300
+        },
+        "amount_spike": {
+          "triggered": 1305,
+          "anomaly_hit": 891
+        },
+        "round_number": {
+          "triggered": 393,
+          "anomaly_hit": 393
+        },
+        "related_party": {
+          "triggered": 342,
+          "anomaly_hit": 327
+        },
+        "relational_anomaly": {
+          "triggered": 3,
+          "anomaly_hit": 3
+        }
+      },
+      "by_risk": {
+        "Revenue Fraud": {
+          "tp": 638,
+          "fp": 458,
+          "fn": 129,
+          "tn": 1300
+        },
+        "Purchase Fraud": {
+          "tp": 701,
+          "fp": 732,
+          "fn": 66,
+          "tn": 1026
+        },
+        "Expense Fraud": {
+          "tp": 701,
+          "fp": 764,
+          "fn": 66,
+          "tn": 994
+        }
+      }
+    }
+  }
+}

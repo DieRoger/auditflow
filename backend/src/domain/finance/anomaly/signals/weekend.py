@@ -4,6 +4,8 @@ from .base import Detection, Signal
 
 class WeekendSignal(Signal):
     name = "weekend"
+    mode = "info"
+    precision = 0.13
 
     def detect(self, row: dict) -> Detection:
         if row.get("Weekend_Flag", "").strip() == "1":
@@ -16,6 +18,8 @@ class WeekendSignal(Signal):
 
 class NightSignal(Signal):
     name = "night"
+    mode = "score"
+    precision = 0.32
 
     def detect(self, row: dict) -> Detection:
         if row.get("Night_Transaction_Flag", "").strip() == "1":

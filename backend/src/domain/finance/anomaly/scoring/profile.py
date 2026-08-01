@@ -63,33 +63,33 @@ class RiskProfile:
 
 REVENUE_FRAUD = RiskProfile(
     name="Revenue Fraud",
-    weights={"duplicate_invoice": 3, "amount_spike": 3, "related_party": 3,
-             "relational_anomaly": 3, "temporal_burst": 2, "audit_violation": 2,
-             "threshold_violation": 2, "round_number": 1, "weekend": 1, "night": 1,
-             "tax_mismatch": 2, "province_mismatch": 1},
-    threshold=10, required_signals=[],
-    severity=SeverityMap(medium=8, high=12, critical=18),
+    weights={"duplicate_invoice": 4, "amount_spike": 5, "related_party": 5,
+             "relational_anomaly": 2, "threshold_violation": 1,
+             "round_number": 3, "tax_mismatch": 1, "temporal_burst": 1.5,
+             "night": 0.5},
+    threshold=5, required_signals=[],
+    severity=SeverityMap(medium=6, high=10, critical=16),
     procedure_template="revenue_cutoff",
 )
 
 PURCHASE_FRAUD = RiskProfile(
     name="Purchase Fraud",
-    weights={"duplicate_invoice": 2, "amount_spike": 2, "related_party": 3,
-             "relational_anomaly": 2, "audit_violation": 3, "tax_mismatch": 3,
-             "province_mismatch": 2, "round_number": 2, "weekend": 2, "night": 2,
-             "threshold_violation": 1, "temporal_burst": 1},
-    threshold=10,
-    severity=SeverityMap(medium=8, high=12, critical=18),
+    weights={"duplicate_invoice": 3, "amount_spike": 3, "related_party": 3,
+             "relational_anomaly": 2, "tax_mismatch": 3,
+             "round_number": 2, "threshold_violation": 1},
+    threshold=4,
+    severity=SeverityMap(medium=5, high=8, critical=14),
+    procedure_template="purchase_vouching",
 )
 
 EXPENSE_FRAUD = RiskProfile(
     name="Expense Fraud",
     weights={"duplicate_invoice": 2, "amount_spike": 2, "related_party": 3,
-             "audit_violation": 3, "round_number": 2, "weekend": 2, "night": 2,
-             "temporal_burst": 2, "threshold_violation": 2, "province_mismatch": 1,
+             "round_number": 2, "threshold_violation": 2,
              "tax_mismatch": 2, "relational_anomaly": 1},
-    threshold=8,
-    severity=SeverityMap(medium=6, high=10, critical=15),
+    threshold=4,
+    severity=SeverityMap(medium=4, high=7, critical=12),
+    procedure_template="expense_occurrence",
 )
 
 ALL_PROFILES = {"revenue": REVENUE_FRAUD, "purchase": PURCHASE_FRAUD, "expense": EXPENSE_FRAUD}

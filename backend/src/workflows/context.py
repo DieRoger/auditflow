@@ -65,6 +65,17 @@ class ContextManager:
         content = artifact.get("content", {})
         if atype == "risk_finding":
             return {"type": "risk", "area": content.get("area", ""), "severity": content.get("severity", "")}
+        if atype == "finding":
+            findings = content.get("findings", [])
+            return {
+                "type": "anomaly",
+                "findings_total": content.get("total", len(findings)),
+                "severity_summary": content.get("summary", {}),
+                "top_findings": [
+                    {"risk": f.get("risk_type", ""), "severity": f.get("severity", ""),
+                     "score": f.get("score", 0)} for f in findings[:5]
+                ],
+            }
         if atype == "evidence_package":
             return {"type": "evidence", "coverage": content.get("coverage", 0)}
         if atype == "review_report":

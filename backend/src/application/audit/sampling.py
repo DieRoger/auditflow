@@ -4,6 +4,7 @@ Phase B: 从 Canonical Transaction 数据中抽取样本
 """
 
 import random
+from datetime import date
 from decimal import Decimal
 from typing import Optional
 
@@ -93,6 +94,12 @@ class CutoffProcedureExecutor:
 
             if not ship_date or not txn_date:
                 continue
+
+            # 统一为 date 类型（兼容字符串输入）
+            if isinstance(ship_date, str):
+                ship_date = date.fromisoformat(ship_date[:10])
+            if isinstance(txn_date, str):
+                txn_date = date.fromisoformat(txn_date[:10])
 
             if ship_date > cutoff_date and txn_date <= cutoff_date:
                 findings.append(AuditFinding(

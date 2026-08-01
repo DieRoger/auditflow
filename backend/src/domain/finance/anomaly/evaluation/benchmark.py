@@ -75,7 +75,7 @@ def run_benchmark():
     print(f"Benchmark: {len(rows)} rows ({sum(1 for r in rows if r['Abnormal_Label'].strip()=='1')} anomalies)\n")
 
     # 多阈值扫描
-    thresholds = [5, 7, 8, 9, 10, 12, 15]
+    thresholds = [5, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     all_results = {}
     best_runs = {"metrics": {"f1": 0}}
 
@@ -94,8 +94,14 @@ def run_benchmark():
 
     # 最佳结果明细
     b = best_runs
+    cm = b["confusion_matrix"]
+    total = b["total"]
+    flagged = cm["tp"] + cm["fp"]
+    review_reduction = (1 - flagged / total) * 100 if total > 0 else 0
+
     print(f"\nBest: threshold={b['threshold']}, F1={b['metrics']['f1']}%")
     print(f"  Precision: {b['metrics']['precision']}% | Recall: {b['metrics']['recall']}%")
+    print(f"  Review Reduction: {review_reduction:.0f}% ({flagged}/{total} flagged for review)")
 
     # Per-Signal
     print(f"\n  Per-Signal:")
@@ -105,8 +111,10 @@ def run_benchmark():
 
     # 保存 JSON
     report = {
-        "timestamp": ts, "dataset": len(rows), "best_threshold": best_runs["threshold"],
-        "best_metrics": best_runs["metrics"], "all_thresholds": all_results,
+        "timestamp": ts, "dataset": total, "best_threshold": b["threshold"],
+        "best_metrics": b["metrics"],
+        "review_reduction": {"flagged": flagged, "total": total, "reduction_pct": round(review_reduction, 1)},
+        "all_thresholds": all_results,
     }
     json_path = os.path.join(REPORT_DIR, f"benchmark_{ts}.json")
     with open(json_path, "w") as f:

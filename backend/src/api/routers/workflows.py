@@ -24,19 +24,30 @@ class ApprovalSubmitRequest(BaseModel):
     comment: str = ""
 
 
+_ENGINE: WorkflowEngine | None = None
+
+
 def _get_engine() -> WorkflowEngine:
+    """返回单例 WorkflowEngine — 状态在进程内持久（create/start/trace 共享）"""
+    global _ENGINE
+    if _ENGINE is not None:
+        return _ENGINE
+
     registry = AgentRegistry()
     from agents.planner.agent import LlmPlannerAgent
     from agents.knowledge.agent import LlmKnowledgeAgent
     from agents.risk.agent import LlmRiskAgent
     from agents.evidence.agent import LlmEvidenceAgent
     from agents.reviewer.agent import LlmReviewerAgent
+    from agents.anomaly_detection.agent import AnomalyDetectionAgent
     registry.register(LlmPlannerAgent)
     registry.register(LlmKnowledgeAgent)
     registry.register(LlmRiskAgent)
     registry.register(LlmEvidenceAgent)
     registry.register(LlmReviewerAgent)
-    return WorkflowEngine(registry)
+    registry.register(AnomalyDetectionAgent)
+    _ENGINE = WorkflowEngine(registry)
+    return _ENGINE
 
 
 def _build_graph(audit_area: str, financial_data: dict) -> GraphDefinition:
@@ -45,13 +56,16 @@ def _build_graph(audit_area: str, financial_data: dict) -> GraphDefinition:
             AgentNode(id="planner", agent_name="planner_agent", input_mapping={
                 "audit_area": audit_area, "project_context": {"financial_data": str(financial_data)[:500]}}),
             AgentNode(id="knowledge", agent_name="knowledge_agent", input_mapping={"audit_area": audit_area}),
+            AgentNode(id="anomaly_detection", agent_name="anomaly_detection_agent",
+                      input_mapping={"transactions": financial_data.get("transactions", [])}),
             AgentNode(id="risk", agent_name="risk_agent", input_mapping={
                 "audit_area": audit_area, "financial_data": financial_data}),
             AgentNode(id="evidence", agent_name="evidence_agent", input_mapping={"claims_to_verify": ["Audit risks"]}),
             AgentNode(id="reviewer", agent_name="reviewer_agent", input_mapping={}),
         ],
-        edges=[Edge(source="planner", target="knowledge"), Edge(source="knowledge", target="risk"),
-               Edge(source="risk", target="evidence"), Edge(source="evidence", target="reviewer")],
+        edges=[Edge(source="planner", target="knowledge"), Edge(source="knowledge", target="anomaly_detection"),
+               Edge(source="anomaly_detection", target="risk"), Edge(source="risk", target="evidence"),
+               Edge(source="evidence", target="reviewer")],
         entry_point="planner", end_nodes=["reviewer"],
     )
 

@@ -3,6 +3,7 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 
 from api.middleware.trace import TraceIDMiddleware
 from api.middleware.rate_limit import RateLimitMiddleware
@@ -37,6 +38,14 @@ app = FastAPI(
 
 app.add_middleware(TraceIDMiddleware)
 app.add_middleware(RateLimitMiddleware, default_limit=100, window_seconds=60)
+# 开发环境 CORS — 允许 Vite dev server (:3000) 跨域访问
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 app.include_router(agents_router)
 app.include_router(documents_router)
 app.include_router(workflows_router)

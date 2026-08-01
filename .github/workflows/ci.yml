@@ -79,6 +79,11 @@ jobs:
         env:
           DATABASE_URL: postgresql+asyncpg://auditflow:auditflow@localhost:5432/auditflow
           HF_HUB_DISABLE_SYMLINKS_WARNING: "1"
+      - name: Evaluation Gate (Benchmark v1.0)
+        run: uv run python scripts/eval_gate.py
+        working-directory: ./backend
+        env:
+          KAGGLE_DATA_PATH: ../benchmark/data/Financial_Audit_N_Abnormal_Transactions.csv
 
   docker:
     if: github.ref == 'refs/heads/main'

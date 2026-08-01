@@ -19,6 +19,8 @@ class RelationalAnomalySignal(Signal):
 
 class TemporalBurstSignal(Signal):
     name = "temporal_burst"
+    mode = "score"
+    precision = 0.57
 
     def detect(self, row: dict) -> Detection:
         try:
@@ -34,6 +36,8 @@ class TemporalBurstSignal(Signal):
 
 class AuditViolationSignal(Signal):
     name = "audit_violation"
+    mode = "info"
+    precision = 0.14
 
     def detect(self, row: dict) -> Detection:
         try:

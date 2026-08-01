@@ -87,6 +87,26 @@ class LlmRiskAgent(BaseAgent):
         financial_data = request.inputs.get("financial_data", {})
         document_chunks = request.context.get("document_chunks", [])
 
+        # ISA 240/315: 从 upstream 读取 Anomaly Detection 结果（若存在）
+        anomaly_section = ""
+        for artifact in request.context.get("upstream_artifacts", []):
+            summary = artifact.get("summary", {})
+            if summary.get("type") != "anomaly":
+                continue
+            anomaly_section = (
+                "Anomaly Detection Findings:\n"
+                f"  Total: {summary.get('findings_total', 0)}\n"
+                f"  Severity: {summary.get('severity_summary', {})}\n"
+            )
+            for f in summary.get("top_findings", []):
+                anomaly_section += (
+                    f"  - [{f.get('severity')}] {f.get('risk', '')} "
+                    f"(score={f.get('score', 0)})\n"
+                )
+        if anomaly_section:
+            financial_data = dict(financial_data or {})
+            financial_data["anomaly_detection"] = anomaly_section
+
         if document_chunks and len(document_chunks) > 0:
             self._chunks_cache = document_chunks
             doc_section = "Document excerpts:\n\n" + "\n\n---\n\n".join(

@@ -23,6 +23,7 @@ load_dotenv(os.path.join(os.path.dirname(__file__), "..", "..", ".env"), overrid
 from agents.base import AgentRegistry
 from agents.planner.agent import LlmPlannerAgent
 from agents.knowledge.agent import LlmKnowledgeAgent
+from agents.anomaly_detection.agent import AnomalyDetectionAgent
 from agents.risk.agent import LlmRiskAgent
 from agents.evidence.agent import LlmEvidenceAgent
 from agents.reviewer.agent import LlmReviewerAgent
@@ -33,7 +34,8 @@ from workflows.models import AgentNode, Edge, GraphDefinition
 def build_graph() -> GraphDefinition:
     """定义 5 Agent 线性审计管线
 
-    Planner → Knowledge → Risk → Evidence → Reviewer
+    Planner → Knowledge → AnomalyDetection → Risk → Evidence → Reviewer
+    (AnomalyDetection 的 Finding 作为 Risk Agent 的 ISA 240/315 输入)
     """
     return GraphDefinition(
         nodes=[
@@ -49,6 +51,11 @@ def build_graph() -> GraphDefinition:
                 id="knowledge",
                 agent_name="knowledge_agent",
                 input_mapping={"audit_area": "Revenue Recognition"},
+            ),
+            AgentNode(
+                id="anomaly_detection",
+                agent_name="anomaly_detection_agent",
+                input_mapping={"transactions": []},  # 由外部注入实际交易数据
             ),
             AgentNode(
                 id="risk",
@@ -82,7 +89,8 @@ def build_graph() -> GraphDefinition:
         ],
         edges=[
             Edge(source="planner", target="knowledge"),
-            Edge(source="knowledge", target="risk"),
+            Edge(source="knowledge", target="anomaly_detection"),
+            Edge(source="anomaly_detection", target="risk"),
             Edge(source="risk", target="evidence"),
             Edge(source="evidence", target="reviewer"),
         ],
@@ -100,6 +108,7 @@ async def main():
     registry = AgentRegistry()
     registry.register(LlmPlannerAgent)
     registry.register(LlmKnowledgeAgent)
+    registry.register(AnomalyDetectionAgent)
     registry.register(LlmRiskAgent)
     registry.register(LlmEvidenceAgent)
     registry.register(LlmReviewerAgent)

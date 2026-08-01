@@ -1,13 +1,19 @@
 import React from "react";
 import AgentTraceViewer from "../features/workflow/AgentTraceViewer.jsx";
 import EvidenceGraph from "../features/evidence/EvidenceGraph.jsx";
+import DashboardLive from "../features/dashboard/DashboardLive.jsx";
+import WorkflowTraceLive from "../features/workflow/WorkflowTraceLive.jsx";
+import EvidenceSearchLive from "../features/evidence/EvidenceSearchLive.jsx";
 
 var pages = [
   { id: "dashboard", label: "Dashboard", desc: "Audit overview and KPIs" },
+  { id: "dashboard-live", label: "Dashboard (Live)", desc: "Real API — agents / workflows / documents", component: "dashboard-live" },
   { id: "documents", label: "Document Center", desc: "Upload and manage audit documents" },
   { id: "workflow", label: "Workflow Monitor", desc: "Track audit pipeline progress" },
   { id: "trace", label: "Agent Trace", desc: "View agent execution timeline", component: "trace" },
+  { id: "trace-live", label: "Trace (Live)", desc: "Real API — workflow execution trace", component: "trace-live" },
   { id: "evidence", label: "Evidence Graph", desc: "Evidence chain visualization", component: "evidence" },
+  { id: "evidence-live", label: "Evidence Search (Live)", desc: "Real API — knowledge retrieval", component: "evidence-live" },
   { id: "risks", label: "Risk Matrix", desc: "View identified audit risks" },
   { id: "approvals", label: "Approvals", desc: "Pending human reviews" },
 ];
@@ -48,6 +54,12 @@ function App() {
         ? React.createElement(AgentTraceViewer, null)
         : activePage === "evidence"
         ? React.createElement(EvidenceGraph, null)
+        : activePage === "dashboard-live"
+        ? React.createElement(DashboardLive, null)
+        : activePage === "trace-live"
+        ? React.createElement(WorkflowTraceLive, null)
+        : activePage === "evidence-live"
+        ? React.createElement(EvidenceSearchLive, null)
         : React.createElement("div", { style: { display: "flex", gap: 16, flexWrap: "wrap" } },
             pages.map(function(p) {
               var isActive = activePage === p.id || (!activePage && p.id === "dashboard");
